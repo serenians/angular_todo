@@ -10,6 +10,7 @@ import { NavComponent } from './controller/nav/nav.component';
 import { HomeComponent } from './controller/home/home.component';
 import { TodoComponent } from './controller/todo/todo.component';
 import { NotFoundComponent } from './controller/not-found/not-found.component';
+import { LocalStorageService } from './services/storage/local-storage.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,9 @@ import { NotFoundComponent } from './controller/not-found/not-found.component';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    LocalStorageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
