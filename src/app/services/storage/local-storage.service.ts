@@ -4,7 +4,7 @@ import { ToDo } from 'src/app/model/ToDo'
 import { _ } from 'underscore'
 import { fromEventPattern } from 'rxjs';
 import { toDate } from '@angular/common/src/i18n/format_date';
-
+import { Subject } from 'rxjs'
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +12,8 @@ export class LocalStorageService {
 
   private key:string = "todoRecords";
   private records: ToDo[]
+
+  itemsUpdated = new Subject();
 
   add(model:ToDo) {
     var recordString = localStorage.getItem(this.key)
@@ -28,6 +30,9 @@ export class LocalStorageService {
 
     localStorage.setItem(this.key, JSON.stringify(record))
     var number: Number =  max + 1;
+
+    this.itemsUpdated.next();
+
     return number
   }
   
