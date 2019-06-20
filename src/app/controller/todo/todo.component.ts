@@ -3,6 +3,8 @@ import {ToDo} from '../../model/ToDo'
 import { FormsModule } from '@angular/forms'
 import { LocalStorageService } from '../../services/storage/local-storage.service';
 import { Subscription } from 'rxjs'
+import { AngularFireDatabase } from 'angularfire2/database';
+import { FirebaseStorageService } from '../../services/storage/firebase-storage.service';
 
 @Component({  
   selector: 'app-todo',
@@ -14,15 +16,20 @@ export class TodoComponent implements OnInit {
   records: ToDo[];
   addNewModel : ToDo;
   private subscription: Subscription;
-  constructor(private storageService: LocalStorageService) { 
+  constructor(private storageService: LocalStorageService, private firebaseStorageService : FirebaseStorageService) { 
     // this.records = new ToDo[10];
+    this.firebaseStorageService.getAll();
   }
 
   ngOnInit() {
     this.addNewModel = new ToDo();
-    this.records = this.storageService.getAll();
-    this.subscription = this.storageService.itemsUpdated.subscribe(()=>{
-      this.records = this.storageService.getAll();
+    // this.records = this.storageService.getAll();
+    // this.subscription = this.storageService.itemsUpdated.subscribe(()=>{
+    //   this.records = this.storageService.getAll();
+    // })
+    this.records = this.firebaseStorageService.getAll();
+    this.subscription = this.firebaseStorageService.itemsUpdated.subscribe(()=>{
+      this.records = this.firebaseStorageService.getAll();
     })
   }
 
@@ -35,5 +42,6 @@ export class TodoComponent implements OnInit {
   onSubmit (form){
     console.log(this.addNewModel);
     this.storageService.add(this.addNewModel);
+    this.firebaseStorageService.add(this.addNewModel);
   }
 }

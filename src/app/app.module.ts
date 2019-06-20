@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 import { AngularFireModule } from 'angularfire2'
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database'
+import { AngularFirestore } from 'angularfire2/firestore'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,7 @@ import { TodoComponent } from './controller/todo/todo.component';
 import { NotFoundComponent } from './controller/not-found/not-found.component';
 import { LocalStorageService } from './services/storage/local-storage.service';
 import { environment } from '../environments/environment';
+import { FirebaseStorageService } from './services/storage/firebase-storage.service';
 
 @NgModule({
   declarations: [
@@ -27,13 +29,14 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,,
+    AppRoutingModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule
   ],
   providers: [
-    LocalStorageService
+    LocalStorageService,
+    FirebaseStorageService
   ],
   bootstrap: [AppComponent]
 })
